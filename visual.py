@@ -2,6 +2,12 @@ import os
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import pandas as pd
+import warnings
+
+def ignore_warnings():
+    warnings.filterwarnings("ignore")
+
+ignore_warnings()
 
 def read_log_files(directory):
     data = []

@@ -1,2 +1,2 @@
 @echo off
-python "C:\Users\user\Desktop\soft\timer\timer_py.py"
+"D:\usualsoft\anaconda\envs\timer\python.exe" "C:\Users\user\Desktop\soft\timer\timer_py.py"
