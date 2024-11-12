@@ -16,7 +16,8 @@ def update_time():
 
 def is_locked():
     user32 = ctypes.windll.user32
-    return user32.GetForegroundWindow() == 0
+    hwnd = user32.GetForegroundWindow()
+    return hwnd == 0 or user32.GetAsyncKeyState(0x5B) != 0  # 0x5B is the virtual key code for the left Windows key
 
 def log_start_time():
     global log_file
@@ -27,8 +28,10 @@ def log_start_time():
         f.write(f"Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
 def log_end_time():
-    with open(log_file, 'a') as f:
-        f.write(f"End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    with open(log_file, 'r+') as f:
+        content = f.read()
+        if "End time:" not in content:
+            f.write(f"End time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
 if __name__ == "__main__":
     root = tk.Tk()
