@@ -11,7 +11,8 @@ def update_time():
         time_label.config(text=f"Time fly: {minutes} minutes {seconds} seconds")
         root.after(1000, update_time)
     else:
-        log_end_time()
+        # 下面的工作交给end_check了
+        # log_end_time()
         root.destroy()
 
 def is_locked():
