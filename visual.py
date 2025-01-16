@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import pandas as pd
 import warnings
+import argparse
 
 def ignore_warnings():
     warnings.filterwarnings("ignore")
@@ -45,7 +46,8 @@ def summarize_daily_durations(data):
     
     return summary_df, global_total_duration
 
-def visualize_time_data(daily_summary, global_total_duration):
+def visualize_time_data(daily_summary, global_total_duration, days):
+    daily_summary = daily_summary.tail(days)  # Display only the last 'days' entries
     ax = daily_summary.set_index('Date')['Total Duration (hours)'].plot(kind='bar')
     for i, v in enumerate(daily_summary['Percentage']):
         ax.text(i, daily_summary['Total Duration (hours)'][i] + 0.1, f"{v}", ha='center')
@@ -64,7 +66,11 @@ def visualize_time_data(daily_summary, global_total_duration):
     plt.show()
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Visualize time data.')
+    parser.add_argument('--days', type=int, default=21, help='Number of days of data to display')
+    args = parser.parse_args()
+    
     log_directory = './log/'
     data = read_log_files(log_directory)
     daily_summary, global_total_duration = summarize_daily_durations(data)
-    visualize_time_data(daily_summary, global_total_duration)
+    visualize_time_data(daily_summary, global_total_duration, args.days)
